@@ -38,6 +38,11 @@ function update() {
     }
     handleWallCollision(balls[i]);
   }
+  if (game.input.mousePointer.isDown)
+  {
+    balls[0].x = game.input.x - POOL_CORNER_X;
+    balls[0].y = game.input.y - POOL_CORNER_Y;
+  }
   updateBallSprites();
 }
 
