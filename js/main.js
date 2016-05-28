@@ -56,7 +56,7 @@ function createBallSprites() {
 function updateBallSprites() {
   for (var i=0;i<balls.length;i++) {
     var ball = balls[i];
-    ball.sprite.x = ball.x;
-    ball.sprite.y = ball.y;
+    ball.sprite.x = ball.x+POOL_CORNER_X;
+    ball.sprite.y = ball.y+POOL_CORNER_Y;
   }
 }

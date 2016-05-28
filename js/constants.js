@@ -3,5 +3,8 @@ var BALL_RADIUS = 10;
 var COLORS = [0xFF9001];
 var COLORS_SIZE = 1;
 
-var POOL_HEIGHT = 400;
-var POOL_WIDTH = 400;
+var POOL_HEIGHT = 200;
+var POOL_WIDTH = 200;
+
+var POOL_CORNER_X = 200;
+var POOL_CORNER_Y = 200;
