@@ -5,6 +5,7 @@ function Ball (x, y) {
     this.radius = BALL_RADIUS;
 
     this.moving = false;
+    this.movingCounter = 4;
 
 }
 
@@ -51,7 +52,9 @@ function handleCollision(ball0, ball1, distance, isPlayer) {
       ball1.y += distance;
     }
     ball1.moving = true;
+    ball1.movingCounter = MOVING_COUNTER_STARTVALUE;
     ball0.moving = false;
+    ball0.movingCounter = 0;
   } else {
     if (ball0.x < ball1.x) {
       ball0.x -= distance;
@@ -64,7 +67,9 @@ function handleCollision(ball0, ball1, distance, isPlayer) {
       ball0.y += distance;
     }
     ball1.moving = false;
+    ball1.movingCounter = 0;
     ball0.moving = true;
+    ball1.movingCounter = MOVING_COUNTER_STARTVALUE;
   }
 }
 
@@ -76,16 +81,20 @@ function handleWallCollision(ball) {
   if (ball.x - BALL_RADIUS< POOL_CORNER_X) {
     ball.x = POOL_CORNER_X + BALL_RADIUS;
     ball.moving = true;
+    ball.movingCounter = MOVING_COUNTER_STARTVALUE;
   } else if (ball.x + BALL_RADIUS > POOL_CORNER_X + POOL_WIDTH) {
     ball.x = POOL_CORNER_X + POOL_WIDTH - BALL_RADIUS;
     ball.moving = true;
+    ball.movingCounter = MOVING_COUNTER_STARTVALUE;
   }
   if (ball.y - BALL_RADIUS < POOL_CORNER_Y) {
     ball.y = POOL_CORNER_Y + BALL_RADIUS;
     ball.moving = true;
+    ball.movingCounter = MOVING_COUNTER_STARTVALUE;
   } else if (ball.y + BALL_RADIUS > POOL_CORNER_Y + POOL_HEIGHT) {
     ball.y = POOL_CORNER_Y + POOL_HEIGHT - BALL_RADIUS;
     ball.moving = true;
+    ball.movingCounter = MOVING_COUNTER_STARTVALUE;
   }
 
 }

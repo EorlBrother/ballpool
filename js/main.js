@@ -79,23 +79,21 @@ function update() {
   if (state == 0) {
     while (elapsed / 16 >= 1) {
       for (var i = 0; i<BALL_AMOUNT; i++) {
-        var hasOverlapped = false;
         for (var j = i+1; j<BALL_AMOUNT; j++) {
           var overlap = checkCircleCollision(balls[i], balls[j])
           if(overlap) {
             handleCollision(balls[i], balls[j], overlap, false);
-            hasOverlapped = true;
           }
         }
         var overlap = checkCircleCollision(balls[i],player);
         if(overlap) {
           handleCollision(balls[i], player, overlap, true);
-          hasOverlapped = true;
-        }
-        if (!hasOverlapped) {
-          balls[i].moving = false;
         }
         handleWallCollision(balls[i]);
+        if (balls[i].movingCounter <= 0) {
+          balls[i].moving = false;
+        }
+        balls[i].movingCounter--;
       }
       if (checkPlayerAtObservatory(player)) {
         gameOver(true);
