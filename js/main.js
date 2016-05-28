@@ -19,6 +19,7 @@ function preload() {
 var cursors;
 var player;
 var bullies = [];
+var overTime = 0;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -43,21 +44,27 @@ function render() {
 
 
 function update() {
-  for (var i = 0; i<BALL_AMOUNT; i++) {
-    for (var j = i+1; j<BALL_AMOUNT; j++) {
-      var overlap = checkCircleCollision(balls[i], balls[j])
-      if(overlap) {
-        handleCollision(balls[i], balls[j], overlap, false);
+  var elapsed = overTime + this.game.time.elapsed;
+  console.log(elapsed);
+  while (elapsed / 16 >= 1) {
+    for (var i = 0; i<BALL_AMOUNT; i++) {
+      for (var j = i+1; j<BALL_AMOUNT; j++) {
+        var overlap = checkCircleCollision(balls[i], balls[j])
+        if(overlap) {
+          handleCollision(balls[i], balls[j], overlap, false);
+        }
       }
+      var overlap = checkCircleCollision(balls[i],player);
+      if(overlap) {
+        handleCollision(balls[i], player, overlap, true);
+      }
+      handleWallCollision(balls[i]);
     }
-    var overlap = checkCircleCollision(balls[i],player);
-    if(overlap) {
-      handleCollision(balls[i], player, overlap, true);
-    }
-    handleWallCollision(balls[i]);
+    handleInput();
+    updateSprites();
+    elapsed -= 16;
   }
-  handleInput();
-  updateSprites();
+  overTime = elapsed;
 }
 
 function handleInput() {
