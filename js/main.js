@@ -84,6 +84,9 @@ function update() {
       }
       handleWallCollision(balls[i]);
     }
+    if (checkPlayerAtObservatory(player)) {
+      gameOver();
+    }
     for (var i=0;i<bullies.length;i++) {
       if (checkCircleCollision(player, bullies[i])) {
         gameOver();
