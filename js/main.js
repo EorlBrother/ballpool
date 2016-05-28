@@ -45,7 +45,6 @@ function render() {
 
 function update() {
   var elapsed = overTime + this.game.time.elapsed;
-  console.log(elapsed);
   while (elapsed / 16 >= 1) {
     for (var i = 0; i<BALL_AMOUNT; i++) {
       var hasOverlapped = false;
@@ -60,7 +59,9 @@ function update() {
       if(overlap) {
         handleCollision(balls[i], player, overlap, true);
       }
-      balls[i].moving = !hasOverlapped;
+      if (!hasOverlapped) {
+        balls[i].moving = false;
+      }
       handleWallCollision(balls[i]);
     }
     for (var i=0;i<bullies.length;i++) {
