@@ -32,8 +32,8 @@ function create() {
   generateBalls();
   generateBullies();
   createBallPool();
-  createBullySprites();
   createBallSprites();
+  createBullySprites();
   createPlayerSprite();
 }
 
