@@ -15,6 +15,7 @@ function preload() {
   game.load.image('bully', 'assets/sprites/bully.png');
   game.load.image('nerd', 'assets/sprites/nerd.png');
   game.load.image('telescope', 'assets/sprites/telescope.png');
+  game.load.audio('music', ['assets/music.mp3', 'assets/music.ogg']);
 }
 
 var cursors;
@@ -24,12 +25,13 @@ var overTime = 0;
 var state = 1;
 var stateText;
 
+var music;
+
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
   cursors = game.input.keyboard.createCursorKeys();
   game.stage.backgroundColor = 0xAAAACC; //'#f46f0a';
-
 
   stateText = game.add.text(game.world.centerX,game.world.centerY,
     'Astro Geek loves his colorful ball pool \n But he also wants to observe the universe \n His journey must be stealthy', { font: '84px Arial', fill: '#fff' });
@@ -39,7 +41,9 @@ function create() {
 
 function startLevel() {
   state = 0;
+  music = game.add.audio('music');
 
+  music.play();
   player = new Ball(POOL_CORNER_X+100,POOL_HEIGHT+POOL_CORNER_Y-100);
 
   var telescope = game.add.sprite(OBSERVATORY_X, OBSERVATORY_Y, 'telescope')
