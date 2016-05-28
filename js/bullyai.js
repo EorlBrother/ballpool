@@ -67,17 +67,17 @@ function generateBullies() {
   bullies = [];
 
   bullies.push({
-    x:50,
-    y:50,
+    x:150,
+    y:150,
     radius:20,
     patrolPath: [
-      {x:50,y:50},
-      {x:50,y:700},
+      {x:150,y:150},
+      {x:150,y:700},
       {x:1000,y:700},
-      {x:1000,y:50},
+      {x:1000,y:150},
     ],
     nextPatrolIndex:0,
-    patrolSpeed:2,
+    patrolSpeed:3,
     engageSpeed:3,
     chaseSpeed:3,
     mode:0,
@@ -90,19 +90,56 @@ function generateBullies() {
     y:600,
     radius:20,
     patrolPath: [
-      {x:50,y:50},
-      {x:1000,y:50},
+      {x:150,y:150},
+      {x:1000,y:150},
       {x:1000,y:700},
-      {x:50,y:700},
+      {x:150,y:700},
     ],
     nextPatrolIndex:0,
-    patrolSpeed:1,
+    patrolSpeed:2,
     engageSpeed:2,
     chaseSpeed:3,
     mode:0,
     eyeingRad: 120,
   });
   startPatrol(bullies[1]);
+
+  bullies.push({
+    x:1000,
+    y:50,
+    radius:20,
+    patrolPath: [
+      {x:1000,y:150},
+      {x:150,y:150},
+      {x:150,y:700},
+      {x:1000,y:700},
+    ],
+    nextPatrolIndex:0,
+    patrolSpeed:3,
+    engageSpeed:3,
+    chaseSpeed:3,
+    mode:0,
+    eyeingRad: 120,
+  });
+  startPatrol(bullies[2]);
+  bullies.push({
+    x:50,
+    y:700,
+    radius:20,
+    patrolPath: [
+      {x:1000,y:150},
+      {x:1000,y:700},
+      {x:150,y:700},
+      {x:150,y:150},
+    ],
+    nextPatrolIndex:0,
+    patrolSpeed:2,
+    engageSpeed:2,
+    chaseSpeed:3,
+    mode:0,
+    eyeingRad: 120,
+  });
+  startPatrol(bullies[3]);
 }
 
 function startPatrol(bully) {
@@ -148,6 +185,8 @@ function engage(bully) {
 }
 
 function lookForMovement(bully) {
+  if (bully.mode == 2)
+    return;
   var minDistance = 1000000;
   var minBallIndex = -1;
   for (var i=0;i<balls.length;i++) {
@@ -166,10 +205,10 @@ function lookForMovement(bully) {
 function lookForPlayer(bully) {
   for (var i=0;i<balls.length;i++) {
     var d = pDistance(balls[i],bully,player);
-    if (d<balls[i].radius) {
-      if (bully.mode == 2) {
+    if (d<balls[i].radius*2) {
+    //  if (bully.mode == 2) {
         bully.mode == 0;
-      }
+    //  }
       return;
     }
   }
@@ -180,7 +219,7 @@ function chase(bully) {
     var deltaX = player.x-bully.x;
     var deltaY = player.y-bully.y;
     var dist = Math.sqrt(deltaX*deltaX+deltaY*deltaY);
-    if (dist<bully.chaseSpeed) {
+    if (dist<bully.chaseSpeed*2) {
       bully.mode = 0;
       return;
     }
@@ -194,10 +233,10 @@ function chase(bully) {
 
 function handleBullies() {
   for (var i=0;i<bullies.length;i++) {
-    console.log("mode:"+i + ":"+bullies[i].mode)
+  //  console.log("mode:"+i + ":"+bullies[i].mode)
     var bully = bullies[i];
-    lookForMovement(bully);
     lookForPlayer(bully);
+    lookForMovement(bully);
     //patrol
     if (bully.mode == 0) {
       patrol(bully);
