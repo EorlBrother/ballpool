@@ -21,7 +21,7 @@ var cursors;
 var player;
 var bullies = [];
 var overTime = 0;
-var state = 0;
+var state = 1;
 var stateText;
 
 function create() {
@@ -30,16 +30,20 @@ function create() {
   cursors = game.input.keyboard.createCursorKeys();
   game.stage.backgroundColor = 0xAAAACC; //'#f46f0a';
 
-  var telescope = game.add.sprite(OBSERVATORY_X, OBSERVATORY_Y, 'telescope')
-  telescope.scale.setTo(0.25,0.25);
 
-  startLevel();
+  stateText = game.add.text(game.world.centerX,game.world.centerY,
+    'Astro Geek loves his colorful ball pool \n But he also wants to observe the universe \n His journey must be stealthy', { font: '84px Arial', fill: '#fff' });
+  stateText.anchor.setTo(0.5, 0.5);
+  stateText.visible = true;
 }
 
 function startLevel() {
   state = 0;
 
   player = new Ball(POOL_CORNER_X+100,POOL_HEIGHT+POOL_CORNER_Y-100);
+
+  var telescope = game.add.sprite(OBSERVATORY_X, OBSERVATORY_Y, 'telescope')
+  telescope.scale.setTo(0.25,0.25);
 
   generateBalls();
   generateBullies();
@@ -48,6 +52,7 @@ function startLevel() {
   createBullySprites();
   createPlayerSprite();
 
+  stateText.visible = false;
   stateText = game.add.text(POOL_CORNER_X+POOL_WIDTH/2 ,POOL_CORNER_Y+POOL_HEIGHT/2,' ', { font: '84px Arial', fill: '#fff' });
   stateText.anchor.setTo(0.5, 0.5);
   stateText.visible = false;
