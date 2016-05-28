@@ -19,6 +19,7 @@ function create() {
 
   game.stage.backgroundColor = '#000000'; //'#f46f0a';
   generateBalls();
+  createBallPool();
   createBallSprites();
 }
 
@@ -39,6 +40,15 @@ function update() {
   updateBallSprites();
 }
 
+function createBallPool() {
+  var pool = game.add.graphics(100, 100);
+
+// set a fill and line style
+  pool.beginFill(0xFFFFFF);
+  pool.lineStyle(10, 0xffd900, 1);
+  pool.drawRect(POOL_CORNER_X, POOL_CORNER_Y, POOL_WIDTH, POOL_HEIGHT);
+  pool.endFill();
+}
 function createBallSprites() {
   for (var i=0;i<balls.length;i++) {
     var ball = balls[i];
