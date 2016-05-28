@@ -37,7 +37,8 @@ function createBallSprites() {
     var ball = balls[i];
     if (ball.sprite == undefined) {
         var ballSprite = game.add.sprite(ball.x, ball.y, 'ball');
-        ballSprite.scale.setTo(0.5);
+        var ballScale = ball.radius/ballSprite.width;
+        ballSprite.scale.setTo(ballScale);
         ballSprite.tint = Math.random() * 0xffffff;
         ball.sprite = ballSprite;
     }
