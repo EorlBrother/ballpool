@@ -98,14 +98,14 @@ function handleInput() {
 
 function generateBullies() {
   bullies.push({
-    x:10,
-    y:10,
-    radius:30
+    x:50,
+    y:50,
+    radius:20
   });
   bullies.push({
-    x:100,
-    y:100,
-    radius:30
+    x:1000,
+    y:600,
+    radius:20
   });
 }
 function createBallPool() {
