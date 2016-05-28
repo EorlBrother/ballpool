@@ -97,18 +97,7 @@ function handleInput() {
   }
 }
 
-function generateBullies() {
-  bullies.push({
-    x:50,
-    y:50,
-    radius:20
-  });
-  bullies.push({
-    x:1000,
-    y:600,
-    radius:20
-  });
-}
+f
 function createBallPool() {
   var pool = game.add.graphics(0, 0);
 
@@ -159,7 +148,7 @@ function createBallSprites() {
     ballSprite.scale.setTo(ballScale);
     ballSprite.anchor.x = 0.5;
     ballSprite.anchor.y = 0.5;
-    ballSprite.tint = Math.random() * 0xffffff;
+    ballSprite.tint = COLORS[Math.floor(Math.random() * COLORS.length)];
   }
 }
 
