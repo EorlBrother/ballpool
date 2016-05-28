@@ -3,7 +3,7 @@ function generateBullies() {
     x:50,
     y:50,
     radius:20,
-    patrolPath = [
+    patrolPath:[
       {x:100,y:100},
       {x:100,y:800},
       {x:800,y:800},
@@ -18,7 +18,7 @@ function generateBullies() {
     x:1000,
     y:600,
     radius:20,
-    patrolPath = [
+    patrolPath:[
       {x:100,y:100},
       {x:800,y:100},
       {x:800,y:800},
