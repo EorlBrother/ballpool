@@ -80,8 +80,8 @@ function createBallPool() {
   var pool = game.add.graphics(0, 0);
 
 // set a fill and line style
-  pool.beginFill(0xFFFFFF);
-  pool.lineStyle(10, 0xffd900, 1);
+  pool.beginFill(0x2233BB);
+  pool.lineStyle(1, 0xAACCFF, 1);
   pool.drawRect(POOL_CORNER_X, POOL_CORNER_Y, POOL_WIDTH, POOL_HEIGHT);
   pool.endFill();
 }
