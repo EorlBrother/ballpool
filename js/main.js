@@ -12,10 +12,12 @@ var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS,
 
 function preload() {
   game.load.image('ball', 'assets/sprites/ball.png');
+  game.load.image('bully', 'assets/sprites/bully.png');
 }
 
 var cursors;
 var player;
+var bullies = [];
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -26,7 +28,9 @@ function create() {
 
   game.stage.backgroundColor = '#000000'; //'#f46f0a';
   generateBalls();
+  generateBullies();
   createBallPool();
+  createBullySprites();
   createBallSprites();
   createPlayerSprite();
 }
@@ -92,6 +96,18 @@ function handleInput() {
   }
 }
 
+function generateBullies() {
+  bullies.push({
+    x:50,
+    y:50,
+    radius:20
+  });
+  bullies.push({
+    x:1000,
+    y:600,
+    radius:20
+  });
+}
 function createBallPool() {
   var pool = game.add.graphics(0, 0);
 
@@ -114,18 +130,34 @@ function createPlayerSprite() {
   }
 }
 
+function createBullySprites() {
+  for (var i=0;i<bullies.length;i++) {
+    var bully = bullies[i];
+    if (bully.sprite == undefined) {
+      var bullySprite = game.add.sprite(bully.x, bully.y, 'bully');
+  //    bullySprite.tint = 0xff9001;
+      bully.sprite = bullySprite;
+    }
+    var playerScale = 2*bully.radius/bullySprite.width;
+    bullySprite.scale.setTo(playerScale);
+    bullySprite.anchor.x = 0.5;
+    bullySprite.anchor.y = 0.5;
+
+  }
+}
+
 function createBallSprites() {
   for (var i=0;i<balls.length;i++) {
     var ball = balls[i];
     if (ball.sprite == undefined) {
         var ballSprite = game.add.sprite(ball.x, ball.y, 'ball');
-        var ballScale = 2*ball.radius/ballSprite.width;
-        ballSprite.scale.setTo(ballScale);
-        ballSprite.anchor.x = 0.5;
-        ballSprite.anchor.y = 0.5;
-        ballSprite.tint = Math.random() * 0xffffff;
         ball.sprite = ballSprite;
     }
+    var ballScale = 2*ball.radius/ballSprite.width;
+    ballSprite.scale.setTo(ballScale);
+    ballSprite.anchor.x = 0.5;
+    ballSprite.anchor.y = 0.5;
+    ballSprite.tint = Math.random() * 0xffffff;
   }
 }
 
@@ -134,6 +166,11 @@ function updateSprites() {
     var ball = balls[i];
     ball.sprite.x = ball.x+POOL_CORNER_X;
     ball.sprite.y = ball.y+POOL_CORNER_Y;
+  }
+  for (var i=0;i<bullies.length;i++) {
+    var bully = bullies[i];
+    bully.sprite.x = bully.x;
+    bully.sprite.y = bully.y;
   }
 
   player.sprite.x = player.x+POOL_CORNER_X;
