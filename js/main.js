@@ -96,7 +96,6 @@ function handleInput() {
   }
 }
 
-f
 function createBallPool() {
   var pool = game.add.graphics(0, 0);
 

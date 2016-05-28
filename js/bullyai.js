@@ -10,5 +10,6 @@ function generateBullies() {
     radius:20
   });
 }
-function startPatrol {
+
+function startPatrol() {
 }
