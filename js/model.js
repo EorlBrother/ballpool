@@ -66,3 +66,21 @@ function handleCollision(ball0, ball1) {
     ball0.moving = true;
   }
 }
+
+
+function handleWallCollision(ball) {
+  if (ball.x < 0) {
+    ball.x += BALL_RADIUS;
+    ball.moving = true;
+  } else if (ball.x  > POOL_WIDTH) {
+    ball.x -= BALL_RADIUS;
+    ball.moving = true;
+  }
+  if (ball.y < 0) {
+    ball.y += BALL_RADIUS;
+    ball.moving = true;
+  } else if (ball.y > POOL_HEIGHT) {
+    ball.y -= BALL_RADIUS;
+    ball.moving = true;
+  }
+}
