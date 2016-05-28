@@ -82,6 +82,7 @@ function update() {
       var overlap = checkCircleCollision(balls[i],player);
       if(overlap) {
         handleCollision(balls[i], player, overlap, true);
+        hasOverlapped = true;
       }
       if (!hasOverlapped) {
         balls[i].moving = false;
