@@ -1,0 +1,7 @@
+var BALL_AMOUNT = 10;
+var BALL_RADIUS = 2;
+var COLORS = [#FF9001];
+var COLORS_SIZE = 1;
+
+var POOL_HEIGHT = 200;
+var POOL_WIDTH = 200; 
