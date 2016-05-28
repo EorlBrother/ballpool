@@ -60,9 +60,7 @@ function update() {
       if(overlap) {
         handleCollision(balls[i], player, overlap, true);
       }
-      if (balls[i].moving && !hasOverlapped) {
-        balls[i].moving = false;
-      }
+      balls[i].moving = !hasOverlapped;
       handleWallCollision(balls[i]);
     }
     for (var i=0;i<bullies.length;i++) {
@@ -71,6 +69,7 @@ function update() {
       }
     }
     handleInput();
+    handleBullies();
     updateSprites();
     elapsed -= 16;
   }
