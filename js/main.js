@@ -15,15 +15,19 @@ function preload() {
 }
 
 var cursors;
+var player;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
   cursors = game.input.keyboard.createCursorKeys();
 
+  player = new Ball(0,0);
+
   game.stage.backgroundColor = '#000000'; //'#f46f0a';
   generateBalls();
   createBallPool();
+  createPlayerSprite();
   createBallSprites();
 }
 
@@ -37,35 +41,38 @@ function update() {
   for (var i = 0; i<BALL_AMOUNT; i++) {
     for (var j = i+1; j<BALL_AMOUNT; j++) {
       if(checkCircleCollision(balls[i], balls[j])) {
-        handleCollision(balls[i], balls[j]);
+        handleCollision(balls[i], balls[j], false);
       }
     }
     handleWallCollision(balls[i]);
+    if(checkCircleCollision(balls[i],player)) {
+      handleCollision(balls[i], player, true);
+    }
   }
   handleInput();
-  updateBallSprites();
+  updateSprites();
 }
 
 function handleInput() {
   if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W))
   {
-    balls[0].y -= BALL_RADIUS/4;
-    balls[0].moving = true;
+    player.y -= BALL_RADIUS/4;
+    player.moving = true;
   }
   if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.S))
   {
-    balls[0].y += BALL_RADIUS/4;
-    balls[0].moving = true;
+    player.y += BALL_RADIUS/4;
+    player.moving = true;
   }
   if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.D))
   {
-    balls[0].x += BALL_RADIUS/4;
-    balls[0].moving = true;
+    player.x += BALL_RADIUS/4;
+    player.moving = true;
   }
   if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.A))
   {
-    balls[0].x -= BALL_RADIUS/4;
-    balls[0].moving = true;
+    player.x -= BALL_RADIUS/4;
+    player.moving = true;
   }
 }
 
@@ -78,6 +85,19 @@ function createBallPool() {
   pool.drawRect(POOL_CORNER_X, POOL_CORNER_Y, POOL_WIDTH, POOL_HEIGHT);
   pool.endFill();
 }
+
+function createPlayerSprite() {
+  if (player.sprite == undefined) {
+      var playerSprite = game.add.sprite(player.x, player.y, 'ball');
+      var playerScale = 2*player.radius/playerSprite.width;
+      playerSprite.scale.setTo(playerScale);
+      playerSprite.anchor.x = 0.5;
+      playerSprite.anchor.y = 0.5;
+      playerSprite.tint = 0xff9001;
+      player.sprite = playerSprite;
+  }
+}
+
 function createBallSprites() {
   for (var i=0;i<balls.length;i++) {
     var ball = balls[i];
@@ -93,10 +113,13 @@ function createBallSprites() {
   }
 }
 
-function updateBallSprites() {
+function updateSprites() {
   for (var i=0;i<balls.length;i++) {
     var ball = balls[i];
     ball.sprite.x = ball.x+POOL_CORNER_X;
     ball.sprite.y = ball.y+POOL_CORNER_Y;
   }
+
+  player.sprite.x = player.x+POOL_CORNER_X;
+  player.sprite.y = player.y+POOL_CORNER_Y;
 }
