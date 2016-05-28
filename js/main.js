@@ -20,15 +20,20 @@ var cursors;
 var player;
 var bullies = [];
 var overTime = 0;
+var state = 0;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
   cursors = game.input.keyboard.createCursorKeys();
+  game.stage.backgroundColor = '#000000'; //'#f46f0a';
 
+  startLevel();
+}
+
+function startLevel() {
   player = new Ball(POOL_CORNER_X,POOL_HEIGHT+POOL_CORNER_Y);
 
-  game.stage.backgroundColor = '#000000'; //'#f46f0a';
   generateBalls();
   generateBullies();
   createBallPool();
@@ -37,10 +42,25 @@ function create() {
   createPlayerSprite();
 }
 
+function destroyEverything() {
+  for (var i = 0; i < balls.length; i++)
+  {
+    balls[i].sprite.kill();
+  }
+  for (var i = 0; i < bullies.length; i++)
+  {
+    bullies[i].sprite.kill();
+    bullies[i].x = 0;
+    bullies[i].y = 0;
+  }
+  player.sprite.kill();
+  player.x = 10000;
+  player.y = 10000;
+
+}
 
 function render() {
 }
-
 
 
 function update() {
@@ -64,8 +84,11 @@ function update() {
       }
       handleWallCollision(balls[i]);
     }
+    if (checkPlayerAtObservatory(player)) {
+      gameOver();
+    }
     for (var i=0;i<bullies.length;i++) {
-      if (checkBoxCollision(player, bullies[i])) {
+      if (checkCircleCollision(player, bullies[i])) {
         gameOver();
       }
     }
@@ -143,10 +166,10 @@ function createBullySprites() {
       var bullySprite = game.add.sprite(bully.x, bully.y, 'bully');
       bully.sprite = bullySprite;
     }
-    var playerScale = 2*bully.radius/bullySprite.width;
-    bullySprite.scale.setTo(playerScale);
-    bullySprite.anchor.x = 0.5;
-    bullySprite.anchor.y = 0.5;
+    var playerScale = 2*bully.radius/bully.sprite.width;
+    bully.sprite.scale.setTo(playerScale);
+    bully.sprite.anchor.x = 0.5;
+    bully.sprite.anchor.y = 0.5;
 
   }
 }
@@ -158,11 +181,11 @@ function createBallSprites() {
         var ballSprite = game.add.sprite(ball.x, ball.y, 'ball');
         ball.sprite = ballSprite;
     }
-    var ballScale = 2*ball.radius/ballSprite.width;
-    ballSprite.scale.setTo(ballScale);
-    ballSprite.anchor.x = 0.5;
-    ballSprite.anchor.y = 0.5;
-    ballSprite.tint = COLORS[Math.floor(Math.random() * COLORS.length)];
+    var ballScale = 2*ball.radius/ball.sprite.width;
+    ball.sprite.scale.setTo(ballScale);
+    ball.sprite.anchor.x = 0.5;
+    ball.sprite.anchor.y = 0.5;
+    ball.sprite.tint = COLORS[Math.floor(Math.random() * COLORS.length)];
   }
 }
 
@@ -183,5 +206,6 @@ function updateSprites() {
 }
 
 function gameOver() {
-  console.log("GAME OVER")
+  destroyEverything();
+  startLevel();
 }
