@@ -26,7 +26,7 @@ function create() {
 
   cursors = game.input.keyboard.createCursorKeys();
 
-  player = new Ball(0,POOL_HEIGHT);
+  player = new Ball(POOL_CORNER_X,POOL_HEIGHT+POOL_CORNER_Y);
 
   game.stage.backgroundColor = '#000000'; //'#f46f0a';
   generateBalls();
@@ -65,7 +65,7 @@ function update() {
       handleWallCollision(balls[i]);
     }
     for (var i=0;i<bullies.length;i++) {
-      if (checkCircleCollision(player, bullies[i])) {
+      if (checkBoxCollision(player, bullies[i])) {
         gameOver();
       }
     }
@@ -80,14 +80,14 @@ function update() {
 function handleInput() {
   if (game.input.mousePointer.isDown)
   {
-    if (player.x < game.input.x - POOL_CORNER_X)  {
+    if (player.x < game.input.x)  {
       player.x += PLAYER_SPEED;
-    } else if (player.x > game.input.x - POOL_CORNER_X) {
+    } else if (player.x > game.input.x) {
       player.x -= PLAYER_SPEED;
     }
-    if(player.y < game.input.y - POOL_CORNER_Y) {
+    if(player.y < game.input.y) {
       player.y += PLAYER_SPEED;
-    } else if (player.y > game.input.y - POOL_CORNER_Y) {
+    } else if (player.y > game.input.y) {
       player.y -= PLAYER_SPEED;
     }
   } else {
@@ -169,8 +169,8 @@ function createBallSprites() {
 function updateSprites() {
   for (var i=0;i<balls.length;i++) {
     var ball = balls[i];
-    ball.sprite.x = ball.x+POOL_CORNER_X;
-    ball.sprite.y = ball.y+POOL_CORNER_Y;
+    ball.sprite.x = ball.x;
+    ball.sprite.y = ball.y;
   }
   for (var i=0;i<bullies.length;i++) {
     var bully = bullies[i];
@@ -178,10 +178,10 @@ function updateSprites() {
     bully.sprite.y = bully.y;
   }
 
-  player.sprite.x = player.x+POOL_CORNER_X;
-  player.sprite.y = player.y+POOL_CORNER_Y;
+  player.sprite.x = player.x;
+  player.sprite.y = player.y;
 }
 
 function gameOver() {
-
+  console.log("GAME OVER")
 }

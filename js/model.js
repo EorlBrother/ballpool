@@ -12,21 +12,21 @@ var balls = [];
 
 function generateBalls() {
   for (var i = 0; i<BALL_AMOUNT; i++) {
-    balls[i] = new Ball(Math.random()*(POOL_WIDTH-2*BALL_RADIUS)+BALL_RADIUS, Math.random()*(POOL_HEIGHT-2*BALL_RADIUS)+BALL_RADIUS)
+    balls[i] = new Ball(Math.random()*(POOL_WIDTH-2*BALL_RADIUS)+BALL_RADIUS+POOL_CORNER_X, Math.random()*(POOL_HEIGHT-2*BALL_RADIUS)+BALL_RADIUS+POOL_CORNER_Y)
   }
 }
 
-// function checkBoxCollision(ball0, ball1) {
-//   return collidesBoxX(ball0, ball1) && collidesBoxY(ball0, ball1);
-// }
-//
-// function collidesBoxX(ball0, ball1) {
-//   return (ball0.x <= ball1.x + BALL_RADIUS*2 && ball0.x >= ball1.x - BALL_RADIUS*2)
-// }
-//
-// function collidesBoxY(ball0, ball1) {
-//   return (ball0.y <= ball1.y + BALL_RADIUS*2 && ball0.y >= ball1.y - BALL_RADIUS*2)
-// }
+function checkBoxCollision(ball0, ball1) {
+  return collidesBoxX(ball0, ball1) && collidesBoxY(ball0, ball1);
+}
+
+function collidesBoxX(ball0, ball1) {
+  return (ball0.x <= ball1.x + BALL_RADIUS*2 && ball0.x >= ball1.x - BALL_RADIUS*2)
+}
+
+function collidesBoxY(ball0, ball1) {
+  return (ball0.y <= ball1.y + BALL_RADIUS*4 && ball0.y >= ball1.y - BALL_RADIUS*4)
+}
 
 function checkCircleCollision(ball0, ball1) {
   var dx = ball0.x - ball1.x;
@@ -70,18 +70,18 @@ function handleCollision(ball0, ball1, distance, isPlayer) {
 
 
 function handleWallCollision(ball) {
-  if (ball.x - BALL_RADIUS< 0) {
-    ball.x = BALL_RADIUS;
+  if (ball.x - BALL_RADIUS< POOL_CORNER_X) {
+    ball.x = POOL_CORNER_X + BALL_RADIUS;
     ball.moving = true;
-  } else if (ball.x + BALL_RADIUS > POOL_WIDTH) {
-    ball.x = POOL_WIDTH - BALL_RADIUS;
+  } else if (ball.x + BALL_RADIUS > POOL_CORNER_X + POOL_WIDTH) {
+    ball.x = POOL_CORNER_X + POOL_WIDTH - BALL_RADIUS;
     ball.moving = true;
   }
-  if (ball.y - BALL_RADIUS < 0) {
-    ball.y = BALL_RADIUS;
+  if (ball.y - BALL_RADIUS < POOL_CORNER_Y) {
+    ball.y = POOL_CORNER_Y + BALL_RADIUS;
     ball.moving = true;
-  } else if (ball.y + BALL_RADIUS > POOL_HEIGHT) {
-    ball.y = POOL_HEIGHT - BALL_RADIUS;
+  } else if (ball.y + BALL_RADIUS > POOL_CORNER_Y + POOL_HEIGHT) {
+    ball.y = POOL_CORNER_Y + POOL_HEIGHT - BALL_RADIUS;
     ball.moving = true;
   }
 
