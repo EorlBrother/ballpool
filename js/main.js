@@ -15,6 +15,7 @@ function preload() {
   game.load.image('bully', 'assets/sprites/bully.png');
   game.load.image('nerd', 'assets/sprites/nerd.png');
   game.load.image('telescope', 'assets/sprites/telescope.png');
+  game.load.audio('music', ['assets/music.mp3', 'assets/music.ogg']);
 }
 
 var cursors;
@@ -23,6 +24,8 @@ var bullies = [];
 var overTime = 0;
 var state = 0;
 var stateText;
+
+var music;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -33,12 +36,15 @@ function create() {
   var telescope = game.add.sprite(OBSERVATORY_X, OBSERVATORY_Y, 'telescope')
   telescope.scale.setTo(0.25,0.25);
 
+
   startLevel();
 }
 
 function startLevel() {
   state = 0;
+  music = game.add.audio('music');
 
+  music.play();
   player = new Ball(POOL_CORNER_X+100,POOL_HEIGHT+POOL_CORNER_Y-100);
 
   generateBalls();
