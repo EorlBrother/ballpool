@@ -22,12 +22,13 @@ var player;
 var bullies = [];
 var overTime = 0;
 var state = 0;
+var stateText;
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
   cursors = game.input.keyboard.createCursorKeys();
-  game.stage.backgroundColor = '#000000'; //'#f46f0a';
+  game.stage.backgroundColor = 0xAAAACC; //'#f46f0a';
 
   var telescope = game.add.sprite(OBSERVATORY_X, OBSERVATORY_Y, 'telescope')
   telescope.scale.setTo(0.25,0.25);
@@ -36,6 +37,8 @@ function create() {
 }
 
 function startLevel() {
+  state = 0;
+
   player = new Ball(POOL_CORNER_X+100,POOL_HEIGHT+POOL_CORNER_Y-100);
 
   generateBalls();
@@ -44,6 +47,10 @@ function startLevel() {
   createBallSprites();
   createBullySprites();
   createPlayerSprite();
+
+  stateText = game.add.text(POOL_CORNER_X+POOL_WIDTH/2 ,POOL_CORNER_Y+POOL_HEIGHT/2,' ', { font: '84px Arial', fill: '#fff' });
+  stateText.anchor.setTo(0.5, 0.5);
+  stateText.visible = false;
 }
 
 function destroyEverything() {
@@ -69,56 +76,60 @@ function render() {
 
 function update() {
   var elapsed = overTime + this.game.time.elapsed;
-  while (elapsed / 16 >= 1) {
-    for (var i = 0; i<BALL_AMOUNT; i++) {
-      var hasOverlapped = false;
-      for (var j = i+1; j<BALL_AMOUNT; j++) {
-        var overlap = checkCircleCollision(balls[i], balls[j])
+  if (state == 0) {
+    while (elapsed / 16 >= 1) {
+      for (var i = 0; i<BALL_AMOUNT; i++) {
+        var hasOverlapped = false;
+        for (var j = i+1; j<BALL_AMOUNT; j++) {
+          var overlap = checkCircleCollision(balls[i], balls[j])
+          if(overlap) {
+            handleCollision(balls[i], balls[j], overlap, false);
+            hasOverlapped = true;
+          }
+        }
+        var overlap = checkCircleCollision(balls[i],player);
         if(overlap) {
-          handleCollision(balls[i], balls[j], overlap, false);
+          handleCollision(balls[i], player, overlap, true);
           hasOverlapped = true;
         }
+        if (!hasOverlapped) {
+          balls[i].moving = false;
+        }
+        handleWallCollision(balls[i]);
       }
-      var overlap = checkCircleCollision(balls[i],player);
-      if(overlap) {
-        handleCollision(balls[i], player, overlap, true);
-        hasOverlapped = true;
+      if (checkPlayerAtObservatory(player)) {
+        gameOver(true);
       }
-      if (!hasOverlapped) {
-        balls[i].moving = false;
+      for (var i=0;i<bullies.length;i++) {
+        if (checkCircleCollision(player, bullies[i])) {
+          gameOver(false);
+        }
       }
-      handleWallCollision(balls[i]);
+      handleInput();
+      handleBullies();
+      updateSprites();
+      elapsed -= 16;
     }
-    if (checkPlayerAtObservatory(player)) {
-      gameOver();
-    }
-    for (var i=0;i<bullies.length;i++) {
-      if (checkCircleCollision(player, bullies[i])) {
-        gameOver();
-      }
-    }
-    handleInput();
-    handleBullies();
-    updateSprites();
-    elapsed -= 16;
+    overTime = elapsed;
+  } else {
+    game.input.onTap.addOnce(startLevel);
   }
-  overTime = elapsed;
 }
 
 function handleInput() {
-  if (game.input.mousePointer.isDown)
-  {
-    if (player.x < game.input.x)  {
-      player.x += PLAYER_SPEED;
-    } else if (player.x > game.input.x) {
-      player.x -= PLAYER_SPEED;
-    }
-    if(player.y < game.input.y) {
-      player.y += PLAYER_SPEED;
-    } else if (player.y > game.input.y) {
-      player.y -= PLAYER_SPEED;
-    }
-  } else {
+  // if (game.input.mousePointer.isDown)
+  // {
+  //   if (player.x < game.input.x)  {
+  //     player.x += PLAYER_SPEED;
+  //   } else if (player.x > game.input.x) {
+  //     player.x -= PLAYER_SPEED;
+  //   }
+  //   if(player.y < game.input.y) {
+  //     player.y += PLAYER_SPEED;
+  //   } else if (player.y > game.input.y) {
+  //     player.y -= PLAYER_SPEED;
+  //   }
+  // } else {
     if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W))
     {
       player.y -= PLAYER_SPEED;
@@ -139,7 +150,7 @@ function handleInput() {
       player.x -= PLAYER_SPEED;
       player.moving = true;
     }
-  }
+  // }
 }
 
 function createBallPool() {
@@ -210,7 +221,13 @@ function updateSprites() {
   player.sprite.y = player.y;
 }
 
-function gameOver() {
+function gameOver(won) {
+  if (won) {
+    stateText.text=" YOU WON \n Click to restart";
+  } else {
+    stateText.text=" GAME OVER \n Click to restart";
+  }
+  stateText.visible = true;
   destroyEverything();
-  startLevel();
+  state = 1;
 }
