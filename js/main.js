@@ -29,6 +29,13 @@ function render() {
 
 
 function update() {
+  for (var i = 0; i<BALL_AMOUNT; i++) {
+    for (var j = i+1; j<BALL_AMOUNT; j++) {
+      if(checkCircleCollision(balls[i], balls[j])) {
+        handleCollision(balls[i], balls[j]);
+      }
+    }
+  }
   updateBallSprites();
 }
 
