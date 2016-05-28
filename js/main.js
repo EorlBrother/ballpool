@@ -27,8 +27,8 @@ function create() {
   game.stage.backgroundColor = '#000000'; //'#f46f0a';
   generateBalls();
   createBallPool();
-  createPlayerSprite();
   createBallSprites();
+  createPlayerSprite();
 }
 
 
@@ -45,11 +45,11 @@ function update() {
         handleCollision(balls[i], balls[j], overlap, false);
       }
     }
-    handleWallCollision(balls[i]);
     var overlap = checkCircleCollision(balls[i],player);
     if(overlap) {
       handleCollision(balls[i], player, overlap, true);
     }
+    handleWallCollision(balls[i]);
   }
   handleInput();
   updateSprites();
