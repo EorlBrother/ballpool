@@ -226,7 +226,7 @@ function updateSprites() {
 
 function gameOver(won) {
   if (won) {
-    stateText.text=" YOU WON \n Click to restart";
+    stateText.text=" LOOK! THE UNIVERSE! \n Click to restart";
   } else {
     stateText.text=" GAME OVER \n Click to restart";
   }
