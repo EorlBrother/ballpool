@@ -5,9 +5,24 @@ function distance(a,b) {
         return Math.sqrt(dx * dx + dy * dy);
 };
 
+function distToSegmentSquared(p, v, w) {
+  var l2 = distance(v, w);
+  if (l2 == 0) return distance(p, v);
+  var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+  t = Math.max(0, Math.min(1, t));
+  return distance(p, {
+    x:v.x + t * (w.x - v.x),
+    y:v.y + t * (w.y - v.y) });
+}
+
+function distToSegment(p,v,w) {
+  var d = Math.sqrt(distToSegmentSquared(p, v, w));
+  return d;
+}
+
 function generateBullies() {
   bullies = [];
-  
+
   bullies.push({
     x:50,
     y:50,
@@ -20,7 +35,8 @@ function generateBullies() {
     ],
     nextPatrolIndex:0,
     patrolSpeed:2,
-    engageSpeed:4,
+    engageSpeed:3,
+    chaseSpeed:4,
     mode:0,
     eyeingRad: 200,
   });
@@ -38,7 +54,8 @@ function generateBullies() {
     ],
     nextPatrolIndex:0,
     patrolSpeed:1,
-    engageSpeed:3,
+    engageSpeed:2,
+    chaseSpeed:4,
     mode:0,
     eyeingRad: 200,
   });
@@ -106,9 +123,11 @@ function lookForMovement(bully) {
 function lookForPlayer(bully) {
   for (var i=0;i<balls.length;i++) {
     if (distToSegment(balls[i],bully,player)<balls[i].radius) {
+      console.log("f: "+balls[i].x+","+balls[i].y);
       if (bully.mode == 2) {
         bully.mode == 0;
       }
+      return;
     }
   }
   bully.mode = 2;
@@ -128,27 +147,13 @@ function chase(bully) {
     bully.y += speedY;
 }
 
-function distToSegmentSquared(p, v, w) {
-  var l2 = distance(v, w);
-  if (l2 == 0) return dist2(p, v);
-  var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
-  t = Math.max(0, Math.min(1, t));
-  return distance(p, {
-    x:v.x + t * (w.x - v.x),
-    y:v.y + t * (w.y - v.y) });
-}
-
-function distToSegment(p,v,w) {
-  var d = Math.sqrt(distToSegmentSquared(p, v, w));
-  return d;
-}
 
 
 function handleBullies() {
   for (var i=0;i<bullies.length;i++) {
     var bully = bullies[i];
     lookForMovement(bully);
-    lookForPlayer(bully);
+  //  lookForPlayer(bully);
     //patrol
     if (bully.mode == 0) {
       patrol(bully);

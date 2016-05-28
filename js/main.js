@@ -32,7 +32,7 @@ function create() {
 }
 
 function startLevel() {
-  player = new Ball(POOL_CORNER_X,POOL_HEIGHT+POOL_CORNER_Y);
+  player = new Ball(POOL_CORNER_X+100,POOL_HEIGHT+POOL_CORNER_Y-100);
 
   generateBalls();
   generateBullies();
