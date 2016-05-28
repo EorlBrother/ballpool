@@ -25,7 +25,7 @@ function create() {
 
   cursors = game.input.keyboard.createCursorKeys();
 
-  player = new Ball(0,0);
+  player = new Ball(0,POOL_HEIGHT);
 
   game.stage.backgroundColor = '#000000'; //'#f46f0a';
   generateBalls();
@@ -115,7 +115,6 @@ function createPlayerSprite() {
       playerSprite.scale.setTo(playerScale,playerScale*1.2);
       playerSprite.anchor.x = 0.5;
       playerSprite.anchor.y = 0.5;
-      // playerSprite.tint = 0xff9001;
       player.sprite = playerSprite;
   }
 }
@@ -125,7 +124,6 @@ function createBullySprites() {
     var bully = bullies[i];
     if (bully.sprite == undefined) {
       var bullySprite = game.add.sprite(bully.x, bully.y, 'bully');
-  //    bullySprite.tint = 0xff9001;
       bully.sprite = bullySprite;
     }
     var playerScale = 2*bully.radius/bullySprite.width;
