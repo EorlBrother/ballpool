@@ -1,4 +1,4 @@
-var BALL_AMOUNT = 10;
+var BALL_AMOUNT = 200;
 var BALL_RADIUS = 10;
 var COLORS = [0xFF9001];
 var COLORS_SIZE = 1;
