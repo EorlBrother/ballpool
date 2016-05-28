@@ -34,67 +34,56 @@ function checkCircleCollision(ball0, ball1) {
   var dx = ball0.x - ball1.x;
   var dy = ball0.y - ball1.y;
   var distance = Math.sqrt(dx * dx + dy * dy);
-  return distance < (ball0.radius+ball1.radius);
+  if (distance < (ball0.radius+ball1.radius)) {
+    return ball0.radius+ball1.radius - distance;
+  }
+  return false;
 }
 
-function handleCollision(ball0, ball1, isPlayer) {
-  if (isPlayer) {
-    if (ball0.x < ball1.x) {
-      ball0.x -= BALL_RADIUS;
+function handleCollision(ball0, ball1, distance, isPlayer) {
+  if ((ball0.moving || (!ball0.moving && !ball1.moving)) && !isPlayer) {
+    if (ball1.x < ball0.x) {
+      ball1.x -= distance;
     } else {
-      ball0.x += BALL_RADIUS;
+      ball1.x += distance;
+    }
+    if (ball1.y < ball0.y) {
+      ball1.y -= distance;
+    } else {
+      ball1.y += distance;
+    }
+    ball1.moving = true;
+    ball0.moving = false;
+  } else {
+    if (ball0.x < ball1.x) {
+      ball0.x -= distance;
+    } else {
+      ball0.x += distance;
     }
     if (ball0.y < ball1.y) {
-      ball0.y -= BALL_RADIUS;
+      ball0.y -= distance;
     } else {
-      ball0.y += BALL_RADIUS;
+      ball0.y += distance;
     }
+    ball1.moving = false;
     ball0.moving = true;
-  } else {
-    if (ball0.moving || (!ball0.moving && !ball1.moving)) {
-      if (ball1.x < ball0.x) {
-        ball1.x -= BALL_RADIUS;
-      } else {
-        ball1.x += BALL_RADIUS;
-      }
-      if (ball1.y < ball0.y) {
-        ball1.y -= BALL_RADIUS;
-      } else {
-        ball1.y += BALL_RADIUS;
-      }
-      ball1.moving = true;
-      ball0.moving = false;
-    } else {
-      if (ball0.x < ball1.x) {
-        ball0.x -= BALL_RADIUS;
-      } else {
-        ball0.x += BALL_RADIUS;
-      }
-      if (ball0.y < ball1.y) {
-        ball0.y -= BALL_RADIUS;
-      } else {
-        ball0.y += BALL_RADIUS;
-      }
-      ball1.moving = false;
-      ball0.moving = true;
-    }
   }
 }
 
 
 function handleWallCollision(ball) {
   if (ball.x - BALL_RADIUS< 0) {
-    ball.x += BALL_RADIUS;
+    ball.x = BALL_RADIUS;
     ball.moving = true;
   } else if (ball.x + BALL_RADIUS > POOL_WIDTH) {
-    ball.x -= BALL_RADIUS;
+    ball.x = POOL_WIDTH - BALL_RADIUS;
     ball.moving = true;
   }
   if (ball.y - BALL_RADIUS < 0) {
-    ball.y += BALL_RADIUS;
+    ball.y = BALL_RADIUS;
     ball.moving = true;
   } else if (ball.y + BALL_RADIUS > POOL_HEIGHT) {
-    ball.y -= BALL_RADIUS;
+    ball.y = POOL_HEIGHT - BALL_RADIUS;
     ball.moving = true;
   }
 

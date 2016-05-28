@@ -40,13 +40,15 @@ function render() {
 function update() {
   for (var i = 0; i<BALL_AMOUNT; i++) {
     for (var j = i+1; j<BALL_AMOUNT; j++) {
-      if(checkCircleCollision(balls[i], balls[j])) {
-        handleCollision(balls[i], balls[j], false);
+      var overlap = checkCircleCollision(balls[i], balls[j])
+      if(overlap) {
+        handleCollision(balls[i], balls[j], overlap, false);
       }
     }
     handleWallCollision(balls[i]);
-    if(checkCircleCollision(balls[i],player)) {
-      handleCollision(balls[i], player, true);
+    var overlap = checkCircleCollision(balls[i],player);
+    if(overlap) {
+      handleCollision(balls[i], player, overlap, true);
     }
   }
   handleInput();
