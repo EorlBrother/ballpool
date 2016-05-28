@@ -34,7 +34,7 @@ function create() {
   game.stage.backgroundColor = 0xAAAACC; //'#f46f0a';
 
   stateText = game.add.text(game.world.centerX,game.world.centerY,
-    'Astro Geek loves his colorful ball pool \n But he also wants to observe the universe \n His journey must be stealthy', { font: '84px Arial', fill: '#fff' });
+    'Astro Geek loves his colorful ball pool \n But he also wants to observe the universe \n His journey must be stealthy', { font: '74px Arial', fill: '#fff' });
   stateText.anchor.setTo(0.5, 0.5);
   stateText.visible = true;
 }
@@ -55,9 +55,8 @@ function startLevel() {
   createBallSprites();
   createBullySprites();
   createPlayerSprite();
-
-  stateText.visible = false;
-  stateText = game.add.text(POOL_CORNER_X+POOL_WIDTH/2 ,POOL_CORNER_Y+POOL_HEIGHT/2,' ', { font: '84px Arial', fill: '#fff' });
+  
+  stateText.text = ' ';
   stateText.anchor.setTo(0.5, 0.5);
   stateText.visible = false;
 }
@@ -230,7 +229,7 @@ function updateSprites() {
 
 function gameOver(won) {
   if (won) {
-    stateText.text=" LOOK! THE UNIVERSE! \n Click to restart";
+    stateText.text=" LOOK! \n THE UNIVERSE! \n Click to restart";
   } else {
     stateText.text=" GAME OVER \n Click to restart";
   }
