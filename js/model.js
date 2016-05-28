@@ -69,7 +69,7 @@ function handleCollision(ball0, ball1, distance, isPlayer) {
 }
 
 function checkPlayerAtObservatory(player) {
-  return (player.x >= OBSERVATORY_X && player.y <= POOL_CORNER_Y);
+  return (player.x >= OBSERVATORY_X && player.x <= OBSERVATORY_X + 20 && player.y <= POOL_CORNER_Y && player.y + 20 >= POOL_CORNER_Y - 40);
 }
 
 function handleWallCollision(ball) {
