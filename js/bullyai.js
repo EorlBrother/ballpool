@@ -5,7 +5,7 @@ function distance(a,b) {
         return Math.sqrt(dx * dx + dy * dy);
 };
 
-function distToSegmentSquared(p, v, w) {
+/*function distToSegmentSquared(p, v, w) {
   var l2 = distance(v, w);
   if (l2 == 0) return distance(p, v);
   var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
@@ -18,6 +18,49 @@ function distToSegmentSquared(p, v, w) {
 function distToSegment(p,v,w) {
   var d = Math.sqrt(distToSegmentSquared(p, v, w));
   return d;
+}
+*/
+
+function pDistance(p,v,w) {
+
+  var x=p.x;
+  var y=p.y;
+
+  var x1=v.x;
+  var y1=v.y;
+
+  var x2=w.x;
+  var y2=w.y;
+
+  var A = x - x1;
+  var B = y - y1;
+  var C = x2 - x1;
+  var D = y2 - y1;
+
+  var dot = A * C + B * D;
+  var len_sq = C * C + D * D;
+  var param = -1;
+  if (len_sq != 0) //in case of 0 length line
+      param = dot / len_sq;
+
+  var xx, yy;
+
+  if (param < 0) {
+    xx = x1;
+    yy = y1;
+  }
+  else if (param > 1) {
+    xx = x2;
+    yy = y2;
+  }
+  else {
+    xx = x1 + param * C;
+    yy = y1 + param * D;
+  }
+
+  var dx = x - xx;
+  var dy = y - yy;
+  return Math.sqrt(dx * dx + dy * dy);
 }
 
 function generateBullies() {
@@ -36,9 +79,9 @@ function generateBullies() {
     nextPatrolIndex:0,
     patrolSpeed:2,
     engageSpeed:3,
-    chaseSpeed:4,
+    chaseSpeed:3,
     mode:0,
-    eyeingRad: 200,
+    eyeingRad: 120,
   });
 
   startPatrol(bullies[0]);
@@ -55,9 +98,9 @@ function generateBullies() {
     nextPatrolIndex:0,
     patrolSpeed:1,
     engageSpeed:2,
-    chaseSpeed:4,
+    chaseSpeed:3,
     mode:0,
-    eyeingRad: 200,
+    eyeingRad: 120,
   });
   startPatrol(bullies[1]);
 }
@@ -122,8 +165,8 @@ function lookForMovement(bully) {
 
 function lookForPlayer(bully) {
   for (var i=0;i<balls.length;i++) {
-    if (distToSegment(balls[i],bully,player)<balls[i].radius) {
-      console.log("f: "+balls[i].x+","+balls[i].y);
+    var d = pDistance(balls[i],bully,player);
+    if (d<balls[i].radius) {
       if (bully.mode == 2) {
         bully.mode == 0;
       }
@@ -151,9 +194,10 @@ function chase(bully) {
 
 function handleBullies() {
   for (var i=0;i<bullies.length;i++) {
+    console.log("mode:"+i + ":"+bullies[i].mode)
     var bully = bullies[i];
     lookForMovement(bully);
-  //  lookForPlayer(bully);
+    lookForPlayer(bully);
     //patrol
     if (bully.mode == 0) {
       patrol(bully);
