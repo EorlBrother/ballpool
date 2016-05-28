@@ -11,15 +11,16 @@ var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS,
 
 
 function preload() {
+  game.load.image('ball', 'assets/sprites/ball.png');
 }
 
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
   game.stage.backgroundColor = '#000000'; //'#f46f0a';
-
+  generateBalls();
+  createBallSprites();
 }
-
 
 
 function render() {
@@ -28,5 +29,25 @@ function render() {
 
 
 function update() {
+  updateBallSprites();
+}
 
+function createBallSprites() {
+  for (var i=0;i<balls.length;i++) {
+    var ball = balls[i];
+    if (ball.sprite == undefined) {
+        var ballSprite = game.add.sprite(ball.x, ball.y, 'ball');
+        ballSprite.scale.setTo(0.5);
+        ballSprite.tint = Math.random() * 0xffffff;
+        ball.sprite = ballSprite;
+    }
+  }
+}
+
+function updateBallSprites() {
+  for (var i=0;i<balls.length;i++) {
+    var ball = balls[i];
+    ball.sprite.x = ball.x;
+    ball.sprite.y = ball.y;
+  }
 }
