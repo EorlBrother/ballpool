@@ -13,6 +13,7 @@ var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS,
 function preload() {
   game.load.image('ball', 'assets/sprites/ball.png');
   game.load.image('bully', 'assets/sprites/bully.png');
+  game.load.image('nerd', 'assets/sprites/nerd.png');
 }
 
 var cursors;
@@ -108,12 +109,13 @@ function createBallPool() {
 
 function createPlayerSprite() {
   if (player.sprite == undefined) {
-      var playerSprite = game.add.sprite(player.x, player.y, 'ball');
+      var playerSprite = game.add.sprite(player.x, player.y, 'nerd');
+      player.radius=20;
       var playerScale = 2*player.radius/playerSprite.width;
-      playerSprite.scale.setTo(playerScale);
+      playerSprite.scale.setTo(playerScale,playerScale*1.2);
       playerSprite.anchor.x = 0.5;
       playerSprite.anchor.y = 0.5;
-      playerSprite.tint = 0xff9001;
+      // playerSprite.tint = 0xff9001;
       player.sprite = playerSprite;
   }
 }
