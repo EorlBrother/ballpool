@@ -6,6 +6,8 @@ function distance(a,b) {
 };
 
 function generateBullies() {
+  bullies = [];
+  
   bullies.push({
     x:50,
     y:50,
