@@ -41,9 +41,6 @@ function create() {
 
 function startLevel() {
   state = 0;
-  if (music != undefined) {
-    music.stop();  
-  }
   music = game.add.audio('music');
 
   music.play();
@@ -58,8 +55,9 @@ function startLevel() {
   createBallSprites();
   createBullySprites();
   createPlayerSprite();
-  
-  stateText.text = ' ';
+
+  stateText.visible = false;
+  stateText = game.add.text(POOL_CORNER_X+POOL_WIDTH/2 ,POOL_CORNER_Y+POOL_HEIGHT/2,' ', { font: '74px Arial', fill: '#fff' });
   stateText.anchor.setTo(0.5, 0.5);
   stateText.visible = false;
 }
