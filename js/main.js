@@ -57,6 +57,7 @@ function update() {
     handleWallCollision(balls[i]);
   }
   handleInput();
+  handleBullies();
   updateSprites();
 }
 
