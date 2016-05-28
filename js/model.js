@@ -28,14 +28,14 @@ function generateBalls() {
 //   return (ball0.y <= ball1.y + BALL_RADIUS*2 && ball0.y >= ball1.y - BALL_RADIUS*2)
 // }
 
-checkCircleCollision(ball0, ball1) {
+function checkCircleCollision(ball0, ball1) {
   var dx = ball0.x - ball1.x;
   var dy = ball0.y - ball1.y;
   var distance = Math.sqrt(dx * dx + dy * dy);
   return distance < (ball0.radius+ball1.radius);
 }
 
-handleCollision(ball0, ball1) {
+function handleCollision(ball0, ball1) {
   ball0.x += BALL_RADIUS;
   ball1.y += BALL_RADIUS;
 }
