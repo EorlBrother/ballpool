@@ -72,7 +72,7 @@ function patrol(bully) {
 function lookForMovement(bully) {
   for (var i=0;i<balls.length;i++) {
     if (distance(balls[i],bully)<bully.eyeingRad) {
-
+      console.log("dsdsd");
     }
   }
 }
