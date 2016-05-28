@@ -14,8 +14,12 @@ function preload() {
   game.load.image('ball', 'assets/sprites/ball.png');
 }
 
+var cursors;
+
 function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
+
+  cursors = game.input.keyboard.createCursorKeys();
 
   game.stage.backgroundColor = '#000000'; //'#f46f0a';
   generateBalls();
@@ -38,7 +42,31 @@ function update() {
     }
     handleWallCollision(balls[i]);
   }
+  handleInput();
   updateBallSprites();
+}
+
+function handleInput() {
+  if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W))
+  {
+    balls[0].y -= BALL_RADIUS/4;
+    balls[0].moving = true;
+  }
+  if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.S))
+  {
+    balls[0].y += BALL_RADIUS/4;
+    balls[0].moving = true;
+  }
+  if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.D))
+  {
+    balls[0].x += BALL_RADIUS/4;
+    balls[0].moving = true;
+  }
+  if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.A))
+  {
+    balls[0].x -= BALL_RADIUS/4;
+    balls[0].moving = true;
+  }
 }
 
 function createBallPool() {
