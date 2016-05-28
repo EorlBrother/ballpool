@@ -42,6 +42,9 @@ function create() {
 
 function startLevel() {
   state = 0;
+  if (music != undefined) {
+    music.stop();  
+  }
   music = game.add.audio('music');
 
   music.play();
