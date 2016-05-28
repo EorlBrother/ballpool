@@ -54,25 +54,39 @@ function update() {
 }
 
 function handleInput() {
-  if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W))
+  if (game.input.mousePointer.isDown)
   {
-    player.y -= BALL_RADIUS/4;
-    player.moving = true;
-  }
-  if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.S))
-  {
-    player.y += BALL_RADIUS/4;
-    player.moving = true;
-  }
-  if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.D))
-  {
-    player.x += BALL_RADIUS/4;
-    player.moving = true;
-  }
-  if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.A))
-  {
-    player.x -= BALL_RADIUS/4;
-    player.moving = true;
+    if (player.x < game.input.x - POOL_CORNER_X)  {
+      player.x += PLAYER_SPEED;
+    } else if (player.x > game.input.x - POOL_CORNER_X) {
+      player.x -= PLAYER_SPEED;
+    }
+    if(player.y < game.input.y - POOL_CORNER_Y) {
+      player.y += PLAYER_SPEED;
+    } else if (player.y > game.input.y - POOL_CORNER_Y) {
+      player.y -= PLAYER_SPEED;
+    }
+  } else {
+    if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W))
+    {
+      player.y -= PLAYER_SPEED;
+      player.moving = true;
+    }
+    if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.S))
+    {
+      player.y += PLAYER_SPEED;
+      player.moving = true;
+    }
+    if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.D))
+    {
+      player.x += PLAYER_SPEED;
+      player.moving = true;
+    }
+    if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.A))
+    {
+      player.x -= PLAYER_SPEED;
+      player.moving = true;
+    }
   }
 }
 
