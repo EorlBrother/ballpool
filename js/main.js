@@ -14,6 +14,7 @@ function preload() {
   game.load.image('ball', 'assets/sprites/ball.png');
   game.load.image('bully', 'assets/sprites/bully.png');
   game.load.image('nerd', 'assets/sprites/nerd.png');
+  game.load.image('telescope', 'assets/sprites/telescope.png');
 }
 
 var cursors;
@@ -27,6 +28,9 @@ function create() {
 
   cursors = game.input.keyboard.createCursorKeys();
   game.stage.backgroundColor = '#000000'; //'#f46f0a';
+
+  var telescope = game.add.sprite(OBSERVATORY_X, OBSERVATORY_Y, 'telescope')
+  telescope.scale.setTo(0.25,0.25);
 
   startLevel();
 }
