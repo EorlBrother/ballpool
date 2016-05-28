@@ -42,7 +42,7 @@ function update() {
 }
 
 function createBallPool() {
-  var pool = game.add.graphics(100, 100);
+  var pool = game.add.graphics(0, 0);
 
 // set a fill and line style
   pool.beginFill(0xFFFFFF);
@@ -57,6 +57,8 @@ function createBallSprites() {
         var ballSprite = game.add.sprite(ball.x, ball.y, 'ball');
         var ballScale = 2*ball.radius/ballSprite.width;
         ballSprite.scale.setTo(ballScale);
+        ballSprite.anchor.x = 0.5;
+        ballSprite.anchor.y = 0.5;
         ballSprite.tint = Math.random() * 0xffffff;
         ball.sprite = ballSprite;
     }
